@@ -12,6 +12,14 @@ public class AccountService {
 
     private AccountDAO accountDAO;
 
+    public AccountService() {
+        this.accountDAO = new AccountDAO();
+    }
+
+    public AccountService(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
+
     /**
      * TODO: insert a new Account into the Account table
      * will not contain an account_id
@@ -20,6 +28,7 @@ public class AccountService {
      * an Account with that username does not already exist. 
      */
     public Account addAccount(Account account) {
+        Account acc;
         // get username
         String username = account.getUsername();
         // get password 
@@ -28,7 +37,7 @@ public class AccountService {
         // check username and password constraints
         if (username.length() > 0 && password.length() >= 4) {
             // check if username already exist in the table
-            Account acc = accountDAO.getAccountFromUsername(username);
+            acc = accountDAO.getAccountFromUsername(username);
             // if username doesn't exist in the table
             if (acc == null) {
                 return accountDAO.insertAccount(account);
