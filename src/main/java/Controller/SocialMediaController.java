@@ -182,18 +182,17 @@ public class SocialMediaController {
      *              200 status code
      * unsucessful: 400 status code
      */
-    private void updateMessageByIdHandler(Context ctx) throws JsonProcessingException{
-        ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(ctx.body(), Message.class);
+    private void updateMessageByIdHandler(Context ctx) {
+        Message message = ctx.bodyAsClass(Message.class);
         // get id and message_text
-        int id = message.getMessage_id();
+        int id = Integer.parseInt(ctx.pathParam("message_id"));
         String message_text = message.getMessage_text();
-        Message updatedMessage = messageService.updateMessage(id, message_text);
 
+        Message updatedMessage = messageService.updateMessage(id, message_text);
         
         // if MessageService sucessfully returns a account
         if (updatedMessage != null) {
-            ctx.json(mapper.writeValueAsString(updatedMessage));
+            ctx.json(updatedMessage);
             ctx.status(200);
         } else {
             // if MessageService returns null
@@ -215,8 +214,4 @@ public class SocialMediaController {
         ctx.json(messages);
         ctx.status(200);
     }
-
-
-
-
 }

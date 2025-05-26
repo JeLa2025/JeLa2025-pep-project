@@ -112,7 +112,7 @@ public class MessageService {
      */
     public Message deleteMessageById(int id) {
         // get the message to be deleted if it exists
-        Message output = messageDAO.getMessageById(id);
+        Message output = getMessageById(id);
 
         // delete the message if it exists
         messageDAO.deleteMessageById(id);
