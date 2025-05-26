@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class MessageDAO {
         try {
             // sql logic
             String sql = "INSERT INTO message (posted_by, message_text, time_posted_epoch) VALUES (?, ?, ?);";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             // setString, setInt, setLong
             preparedStatement.setInt(1, message.getPosted_by());
@@ -28,8 +29,13 @@ public class MessageDAO {
             preparedStatement.setLong(3, message.getTime_posted_epoch());
 
             // execute the query
-            preparedStatement.executeUpdate();
-            return message;
+            int numRowsAffected = preparedStatement.executeUpdate();
+            ResultSet pkResultSet = preparedStatement.getGeneratedKeys();
+            if (numRowsAffected > 0 && pkResultSet.next()) {
+                int generated_message_id = pkResultSet.getInt(1);
+                message.setMessage_id(generated_message_id);
+                return message;
+            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());

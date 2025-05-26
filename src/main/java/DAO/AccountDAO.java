@@ -9,7 +9,7 @@ import Model.Message;
 import Util.ConnectionUtil;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,15 +29,20 @@ public class AccountDAO {
         try {
             // sql logic
             String sql = "INSERT INTO account (username, password) VALUES (?, ?);";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             // setString, setInt, setLong
             preparedStatement.setString(1, account.getUsername());
             preparedStatement.setString(2, account.getPassword());
 
             // execute the query
-            preparedStatement.executeUpdate();
-            return account;
+            int numRowsAffected = preparedStatement.executeUpdate();
+            ResultSet pkResultSet = preparedStatement.getGeneratedKeys();
+            if (numRowsAffected > 0 && pkResultSet.next()) {
+                int generated_account_id = pkResultSet.getInt(1);
+                account.setAccount_id(generated_account_id);
+                return account;
+            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -41,7 +41,6 @@ public class AccountService {
             // if username doesn't exist in the table
             if (acc == null) {
                 return accountDAO.insertAccount(account);
-
             }
         }
         return null;

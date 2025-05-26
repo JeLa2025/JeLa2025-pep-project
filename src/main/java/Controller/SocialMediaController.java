@@ -180,7 +180,7 @@ public class SocialMediaController {
      * If sucessful: messgae is not blank and not over 255 characters
      *              response body contains full updated message
      *              200 status code
-     * uncessful: 400 status code
+     * unsucessful: 400 status code
      */
     private void updateMessageByIdHandler(Context ctx) throws JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
@@ -189,6 +189,7 @@ public class SocialMediaController {
         int id = message.getMessage_id();
         String message_text = message.getMessage_text();
         Message updatedMessage = messageService.updateMessage(id, message_text);
+
         
         // if MessageService sucessfully returns a account
         if (updatedMessage != null) {

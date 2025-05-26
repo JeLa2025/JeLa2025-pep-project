@@ -134,11 +134,10 @@ public class MessageService {
         if (validateMessage(text) && validateMessageId(id)) {
             // update the message
             messageDAO.updateMessage(id, text);
-            // retrive the update message
-            Message output = messageDAO.getMessageById(id);
-            // return the updated message
-            return output;
-        }
-        return null;
+            // retrive the update message and return it
+            return getMessageById(id);
+        } else {
+            return null;
+        } 
     }
 }
