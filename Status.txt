@@ -1,0 +1,30 @@
+5/25/2025
+9:43 PM
+Current Status:
+Finished MessageDAO.java
+Finished MessageService.java
+
+Issues/ Concerns:
+#3 of Requirements
+- implemented in MessageService.java
+- addMessage(Message message) method
+- posted_by is the foreign key refering to the a primary key in Account table
+    -> this needs to be validate
+    -> not sure if the validation was done correctly
+    -> created a AccountDAO instance to get into the Account table
+
+
+11:30 PM
+Current Status:
+Finished AccountDAO.java
+Finished AccountService.java
+
+Issues/ Concerns:
+#8 of Requirements
+- implemented in AccountDAO.java
+- getAllMessagesByAccount(Account account) method
+- need to access the message db using account primary key
+    -> account primary key is referenced by a foregin key in message db
+    -> retrived primary key from account and then
+        directly accessed the message db
+    -> not sure if it will work
